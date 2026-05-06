@@ -11,12 +11,12 @@ Il modulo usa:
 
 Nel file `module.py` e presente anche l'import di `datetime`, usato per aggiungere data e ora nei file di testo generati.
 
-## Come scaricare il modulo
+## Come installare il modulo
 
-Da bash, puoi scaricare direttamente il file `module.py` dalla repository GitHub con:
+Da bash, puoi installare il modulo direttamente dalla repository GitHub con:
 
 ```bash
-mkdir -p basic_tools_GM && curl -L "https://raw.githubusercontent.com/giacomomoriondo2002/Basic_tools_GM/main/basic_tools_GM/module.py" -o basic_tools_GM/module.py
+pip install git+https://github.com/giacomomoriondo2002/Basic_tools_GM.git
 ```
 
 ## Contenuto di `module.py`
