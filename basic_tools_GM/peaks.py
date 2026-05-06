@@ -1,4 +1,4 @@
-﻿import numpy as np
+import numpy as np
 from .utils import best_index_finder
 __all__ = [
     "extr_finder",
@@ -9,10 +9,12 @@ __all__ = [
 def extr_finder(trace):
     """
     This function finds local extrema (maxima and minima) in a one-dimensional signal.
+
     Parameters
     ----------
     trace : array_like
         One-dimensional signal to analyze.
+
     Returns
     -------
     extr_ind : list of int
@@ -21,6 +23,7 @@ def extr_finder(trace):
         Indices of local maxima.
     min_ind : list of int
         Indices of local minima.
+
     Notes
     -----
     - An extremum is detected when the sign of the first-difference derivative changes.
@@ -70,6 +73,7 @@ def rel_peaks_finder(trace,delta,toll=0,return_extremant_indiced=False):
     """
     Finds "relevant" local peaks in a one-dimensional signal, based on a minimum 
     amplitude difference (`delta`) compared to neighboring extrema.
+
     Parameters
     ----------
     trace : array_like
@@ -84,6 +88,7 @@ def rel_peaks_finder(trace,delta,toll=0,return_extremant_indiced=False):
     return_extremant_indiced : bool, optional, default=False
         If True, also returns all extrema indices (maxima and minima) detected 
         by `extr_finder`.
+
     Returns
     -------
     relevant : list of int
@@ -97,6 +102,7 @@ def rel_peaks_finder(trace,delta,toll=0,return_extremant_indiced=False):
     minind : list of int, optional
         Indices of local minima in the signal. Returned only if 
         `return_extremant_indiced=True`.
+
     Notes
     -----
     - The function uses `extr_finder` to detect local maxima and minima.
@@ -104,6 +110,7 @@ def rel_peaks_finder(trace,delta,toll=0,return_extremant_indiced=False):
     neighboring minima (or compared to signal edges for the first/last extrema).
     - The `toll` parameter allows capturing secondary peaks that are close to 
     relevant ones and exceed the threshold on at least one side.
+
     Examples
     --------
     >>> import numpy as np
@@ -160,6 +167,18 @@ def rel_peaks_finder(trace,delta,toll=0,return_extremant_indiced=False):
 #This funcion also identifies a boolean mask containing the relevant peaks point. Those are the points going from the minimu before to the one after a relevant peak.
 #Auxiliar function for the main function
 def add_section(start,stop,mask):
+    """
+    Mark a half-open section of a boolean mask as True.
+
+    Parameters
+    ----------
+    start : int
+        First index of the section.
+    stop : int
+        Exclusive stop index of the section.
+    mask : ndarray of bool
+        Mask modified in place.
+    """
     for i in range(start,stop):
         if 0<i<len(mask)-1:
             mask[i]=True
@@ -167,6 +186,7 @@ def relevant_peaks_mask(trace,delta,toll=0,include_mins=True,return_mins=False):
     """
     Identifies relevant peaks in a signal and builds a boolean mask
     highlighting the significant regions around those peaks.
+
     Parameters
     ----------
     trace : array_like
@@ -181,6 +201,7 @@ def relevant_peaks_mask(trace,delta,toll=0,include_mins=True,return_mins=False):
         If True, include minima in the mask. Default = True.
     return_mins : bool, optional
         If True, include minima in the output (for optimization efficiency). Default = False.
+
     Returns
     -------
     relevant : list of int
@@ -188,6 +209,7 @@ def relevant_peaks_mask(trace,delta,toll=0,include_mins=True,return_mins=False):
     mask : ndarray of bool
         Boolean mask with the same length as `trace`, True over sections considered
         significant (around relevant peaks) and False elsewhere.
+
     Notes
     -----
     - The function uses `extr_finder` to obtain the local extrema of the signal.

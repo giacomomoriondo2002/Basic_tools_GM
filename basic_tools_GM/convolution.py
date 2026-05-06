@@ -1,4 +1,4 @@
-﻿import numpy as np
+import numpy as np
 import scipy as sp
 
 
@@ -11,6 +11,7 @@ def convolution(a, b, mode='full', veca=None,vecb=None):
     """
     Compute the convolution between two signals, with optional scaling
     to preserve physical units when time vectors are provided.
+
     Parameters
     ----------
     a : array_like
@@ -32,17 +33,19 @@ def convolution(a, b, mode='full', veca=None,vecb=None):
     vecb : array_like, optional
         Time vector corresponding to signal `b`. If None,
         defaults to `veca`.
+
     Returns
     -------
     conv : ndarray
         Convolved signal.
-        - If `mode` in {'full', 'same', 'valid'} â†’ only the convolved values.
-        - If `mode='scaled'` â†’ convolved values rescaled and
+        - If `mode` in {'full', 'same', 'valid'} -> only the convolved values.
+        - If `mode='scaled'` -> convolved values rescaled and
           cropped/padded to match `a`.
-        - If `mode='full scaled'` â†’ tuple (conv, tfull) where `tfull`
+        - If `mode='full scaled'` -> tuple (conv, tfull) where `tfull`
           is the reconstructed time vector.
     tfull : ndarray, optional
         Returned only if `mode='full scaled'`. Time vector of the convolution.
+
     Raises
     ------
     ValueError
@@ -50,6 +53,7 @@ def convolution(a, b, mode='full', veca=None,vecb=None):
         If input time vectors are not uniformly sampled or have different
         sampling frequencies.
         If length of time vectors does not match the signal length.
+
     Notes
     -----
     - Uses `scipy.signal.fftconvolve` for efficiency.
@@ -57,6 +61,7 @@ def convolution(a, b, mode='full', veca=None,vecb=None):
       with continuous-time convolution.
     - In 'scaled' mode, zero-padding or cropping is applied
       to align the result with `veca`.
+
     Examples
     --------
     >>> import numpy as np
@@ -106,6 +111,7 @@ def reg_deconvolution(trace,Green,tvec,*args,mode='discrete',epsilon=None):
     Regularized frequency-domain deconvolution:
         Ff = Ftrace * conj(FG) / (|FG|^2 + eps)
     where the Green kernel is sampled over lags (tau), not over absolute time.
+
     Parameters
     ----------
     trace : (L,) array_like
@@ -119,10 +125,11 @@ def reg_deconvolution(trace,Green,tvec,*args,mode='discrete',epsilon=None):
     mode : {'discrete', 'continuous'}, optional
         - 'discrete': no correction is applied.
         - 'continuous': divides by `dt` to compensate the integral,
-        so that sum â‰ˆ integral.
+        so that sum ~= integral.
     epsilon : float or None, optional
         Regularization term; if very small, it is automatically scaled
         relative to |FG|^2.
+
     Returns
     -------
     f : (L,) ndarray
@@ -149,7 +156,7 @@ def reg_deconvolution(trace,Green,tvec,*args,mode='discrete',epsilon=None):
     if mode=='discrete':
         l=1
     elif mode=='continuous':
-        l=np.diff(tvec)[0]   #we have to divide by the differntial because in the continuous: conv = âˆ« g(Ï„) u(t-Ï„) dÏ„
+        l=np.diff(tvec)[0]   #we have to divide by the differntial because in the continuous: conv = integral g(tau) u(t-tau) dtau
     
     return f/l  # 
 

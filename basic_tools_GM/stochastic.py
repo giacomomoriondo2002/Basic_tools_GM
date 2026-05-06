@@ -1,4 +1,4 @@
-﻿import numpy as np
+import numpy as np
 import scipy as sp
 __all__ = [
     "autocovariance_matrix_1D_system",
@@ -11,9 +11,10 @@ def autocovariance_matrix_1D_system(X,N_iter_axis=0,unbiased=True):
     from an ensemble of trajectories.
     This function estimates the autocovariance matrix:
     
-        C_{ij} = < (x(t_i) - Î¼(t_i)) (x(t_j) - Î¼(t_j)) >
+        C_{ij} = < (x(t_i) - mu(t_i)) (x(t_j) - mu(t_j)) >
     
     where the average is taken over the ensemble of realizations.
+
     Parameters
     ----------
     X : array_like
@@ -30,11 +31,13 @@ def autocovariance_matrix_1D_system(X,N_iter_axis=0,unbiased=True):
         If True, use the unbiased estimator of the covariance (divide by N-1).
         If False, use the biased estimator (divide by N), typically used in
         Monte Carlo simulations.
+
     Returns
     -------
     X_corr : ndarray, shape (n_time, n_time)
         Two-time autocovariance matrix. Entry (i, j) corresponds to the
         covariance between x(t_i) and x(t_j).
+
     Notes
     -----
     - The function assumes that different trajectories are independent realizations
@@ -60,6 +63,7 @@ def Random_jump(W,current_state,State_vec,test_W=True):
     Sample the next state of a discrete-time Markov process from a given transition matrix.
     Given the current state and a transition matrix W, this function draws the next state
     according to the probability distribution defined by the corresponding column of W.
+
     Parameters
     ----------
     W : array_like, shape (N, N)
@@ -75,6 +79,7 @@ def Random_jump(W,current_state,State_vec,test_W=True):
     test_W : bool, optional (default=True)
         If True, checks whether each column of W sums to 1 (within numerical tolerance).
         Raises a ValueError if the condition is not satisfied.
+
     Returns
     -------
     result : dict
@@ -83,11 +88,13 @@ def Random_jump(W,current_state,State_vec,test_W=True):
             Index of the sampled next state in `State_vec`.
         - 'next_state' : scalar or ndarray
             The sampled next state.
+
     Raises
     ------
     ValueError
         If `test_W` is True and W is not a valid transition matrix (columns do not sum to 1),
         or if `current_state` is not found in `State_vec`.
+
     Notes
     -----
     The sampling is performed using inverse transform sampling: a uniform random number
@@ -95,6 +102,7 @@ def Random_jump(W,current_state,State_vec,test_W=True):
     associated with the transition probabilities.
     This function supports both scalar and vector-valued states, provided that `State_vec`
     is structured consistently (each row corresponding to one state).
+
     Examples
     --------
     Scalar states:
@@ -136,10 +144,11 @@ def autocovariance_function(x,max_lag,max_lag_mode='discrete',dt=None):
     using an FFT-based correlation.
     The autocovariance is defined as:
         C(tau) = <x(t) x(t+tau)> - <x>^2
-    where <Â·> denotes a temporal average over the overlapping interval.
+    where <.> denotes a temporal average over the overlapping interval.
     The average is computed in discrete form as a sum divided by the
     number of overlapping samples (N - k), so no explicit time-step
     scaling is required for uniformly sampled data.
+
     Parameters
     ----------
     x : array_like
@@ -157,11 +166,13 @@ def autocovariance_function(x,max_lag,max_lag_mode='discrete',dt=None):
           to samples using `dt`.
     dt : float, optional
         Sampling time step. Required only if `max_lag_mode='time'`.
+
     Returns
     -------
     res : ndarray
         Autocovariance values for lags tau = 0, 1, ..., max_lag.
-        The first value satisfies C(0) â‰ˆ Var(x).
+        The first value satisfies C(0) ~= Var(x).
+
     Notes
     -----
     - The correlation is computed via FFT-based convolution using
@@ -171,9 +182,10 @@ def autocovariance_function(x,max_lag,max_lag_mode='discrete',dt=None):
     - No normalization by the variance is performed. To obtain the
       normalized autocorrelation function (ACF), divide the output
       by res[0].
+
     Examples
     --------
-    >>> C = autocorr_function(x, max_lag=500)
+    >>> C = autocovariance_function(x, max_lag=500)
     >>> C_norm = C / C[0]   # normalized autocorrelation
     """
     if isinstance(max_lag_mode,str) and max_lag_mode=='time':

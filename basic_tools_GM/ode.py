@@ -1,9 +1,10 @@
-﻿import numpy as np
+import numpy as np
 __all__ = ["Runge_Kutta_4"]
 def Runge_Kutta_4(r0,f,dt,T):
     """
     Integrate a system of first-order ordinary differential equations
-    using the classical fourth-order Rungeâ€“Kutta (RK4) method.
+    using the classical fourth-order Runge-Kutta (RK4) method.
+
     Parameters
     ----------
     r0 : array_like
@@ -16,6 +17,7 @@ def Runge_Kutta_4(r0,f,dt,T):
         Time step of the integration.
     T : float
         Final integration time.
+
     Returns
     -------
     res : dict
@@ -25,17 +27,19 @@ def Runge_Kutta_4(r0,f,dt,T):
         - 'trajectory' : ndarray
             Array of shape (N+1, len(r0)) containing the state vector
             at each time step.
+
     Notes
     -----
     This implementation assumes a constant time step and does not
     perform adaptive step-size control. For stiff systems or high
     accuracy requirements, consider using adaptive integrators
     (e.g. scipy.integrate.solve_ivp).
+
     Examples
     --------
     >>> res = Runge_Kutta_4(r0, f, dt=0.01, T=40)
     >>> t = res['tvec']
-    >>> r = res['r']
+    >>> r = res['trajectory']
     """
     Np=int(np.round(T/dt))
     tvec=np.linspace(0,Np*dt,Np+1)

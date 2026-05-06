@@ -20,6 +20,7 @@ def Good_filter_index(
     Compute a quality index for a filtered signal.
     The index combines the distance from the original trace with a penalty for
     spurious oscillations. Lower values indicate a better filtered signal.
+
     Parameters
     ----------
     Bessel_filtr_trace : array_like
@@ -38,6 +39,7 @@ def Good_filter_index(
         to 5% of `N_m`. Default is 'auto'.
     weight : float, optional
         Weight multiplying the distance term. Default is 100.
+
     Returns
     -------
     index : float
@@ -90,6 +92,7 @@ def optimize_filter(
     The function scans a range of cutoff frequencies, filters the trace for
     each candidate value, evaluates the result with `Good_filter_index`, and
     returns the frequency with the lowest index.
+
     Parameters
     ----------
     trace_to_filter : array_like
@@ -109,6 +112,7 @@ def optimize_filter(
         Softness parameter passed to `Good_filter_index`. Default is 'auto'.
     return_filtered : bool, optional
         If True, return the best filtered signal. Default is True.
+
     Returns
     -------
     optfreq : float

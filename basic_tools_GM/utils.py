@@ -1,4 +1,4 @@
-﻿import numpy as np
+import numpy as np
 
 
 __all__ = ["couple_sorting", "best_index_finder"]
@@ -8,6 +8,7 @@ __all__ = ["couple_sorting", "best_index_finder"]
 def couple_sorting(x, y, descending=False):
     """
     Sort two arrays (x, y) in parallel according to the order of x.
+
     Parameters
     ----------
     x : array-like
@@ -15,19 +16,22 @@ def couple_sorting(x, y, descending=False):
     y : array-like
         Array whose elements are reordered following x.
     descending : bool, optional
-        If True (default), sorts in ascending order; otherwise descending.
+        If True, sort in descending order. If False (default), sort in
+        ascending order.
+
     Returns
     -------
     x_sorted : ndarray
         Sorted version of x.
     y_sorted : list or ndarray
         Reordered version of y, matching the order of x.
+
     Examples
     --------
     >>> x = [5, 2, 9]
     >>> y = ['a', 'b', 'c']
     >>> couple_sorting(x, y)
-    (array([9, 5, 2]), ['c', 'a', 'b'])
+    (array([2, 5, 9]), array(['b', 'a', 'c'], dtype='<U1'))
     """
     x = np.asarray(x)
     if len(x) != len(y):
@@ -50,6 +54,7 @@ def best_index_finder(vec,*args,toll='auto',return_vec='best',mode='strict',igno
     Find indices in a 1D pool vector corresponding to one or more target values.
     For each target value, the function searches for the closest element
     in `vec` or, alternatively, for all elements within a given tolerance.
+
     Parameters
     ----------
     vec : array_like
@@ -73,6 +78,7 @@ def best_index_finder(vec,*args,toll='auto',return_vec='best',mode='strict',igno
         - 'only close points': discard targets whose closest point is
           farther than `toll`.
         - 'loose': always return the closest point, regardless of distance.
+
     Returns
     -------
     int or ndarray or dict
@@ -83,12 +89,14 @@ def best_index_finder(vec,*args,toll='auto',return_vec='best',mode='strict',igno
         - for a single target, a NumPy array of all matching indices,
         - for multiple targets, a dictionary mapping each target index
           (``target:i``) to a NumPy array of matching indices in `vec`.
+
     Raises
     ------
     ValueError
         If input dimensions are invalid, an unknown mode is specified,
         or if `mode='strict'` and at least one target has no match within
         the specified tolerance.
+
     Notes
     -----
     - The function operates only on one-dimensional arrays.
@@ -99,6 +107,7 @@ def best_index_finder(vec,*args,toll='auto',return_vec='best',mode='strict',igno
       are omitted.
     - No sorting of `vec` is performed; tolerance estimation with
       ``toll='auto'`` assumes approximately uniform spacing.
+
     Examples
     --------
     >>> vec = np.array([0.0, 0.1, 0.2, 0.3])

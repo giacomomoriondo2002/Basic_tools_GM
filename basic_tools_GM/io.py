@@ -1,4 +1,4 @@
-﻿import numpy as np
+import numpy as np
 from datetime import datetime
 from .utils import couple_sorting
 
@@ -19,6 +19,7 @@ def txt_file_writer(filename,names_of_arrays,*arrays,digit_of_precision='all',mo
     tabular columns into a text file. NaN values are written as empty cells 
     to keep columns aligned. A header row with column names is included, 
     and optional metadata (date/time and description) can be written.
+
     Parameters
     ----------
     filename : str
@@ -43,18 +44,22 @@ def txt_file_writer(filename,names_of_arrays,*arrays,digit_of_precision='all',mo
         Optional descriptive text to include in the file header. Default is None.
     delimiter : str, optional
         Column separator string. Default is a tab ('\\t').
-    auto_ordering: bool {True}
-        if set on 'True' it will write the arrays in decrasing order in length; if set on 'False' it will respect the names_of_arrays oder
+    auto_ordering : bool, optional
+        If True, write arrays in decreasing order of length. If False, preserve
+        the order given in ``names_of_arrays``.
+
     Returns
     -------
     bool
         True if writing was successful.
+
     Notes
     -----
     - All arrays are cast to float before writing, to support NaN padding.
     - NaN values are rendered as empty cells, preserving table alignment.
     - Useful for exporting data tables with columns of unequal length.
     - Couple sorting function needed in the same module
+
     Examples
     --------
     >>> import numpy as np

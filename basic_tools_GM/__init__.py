@@ -1,4 +1,4 @@
-﻿from .stochastic import *
+from .stochastic import *
 from .io import *
 from .utils import *
 from .convolution import *

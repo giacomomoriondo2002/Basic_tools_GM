@@ -1,4 +1,4 @@
-﻿import numpy as np
+import numpy as np
 from .utils import best_index_finder
 from .peaks import extr_finder
 __all__ = ["patcher", "Interp_grid", "absolute_grid_sum"]
@@ -6,6 +6,7 @@ def patcher(trace,tvec,d='auto',atol=1e-10):
     """
     Extends (patches) the trace at the beginning and end with squared half-sine waves,
     matched in value and slope at the boundaries, to stabilize FFTs/deconvolutions.
+
     Parameters
     ----------
     trace : (N,) array_like
@@ -15,7 +16,8 @@ def patcher(trace,tvec,d='auto',atol=1e-10):
     d : float or {'auto'}
         Half-period (s) of the base sine wave. If 'auto', the signal duration is used.
     atol : float
-        Tolerance threshold for â€œalmost zeroâ€ tests.
+        Tolerance threshold for "almost zero" tests.
+
     Returns
     -------
     tnew : ndarray
@@ -140,7 +142,8 @@ def Interp_grid(trace,Interpeak_mask,tvec,grid_spacing=5,correct_for_mins_duplic
     """
     Builds a regular time grid and, for each grid node, computes the average value
     of the signal in adjacent windows using only the points marked True by a mask
-    (e.g., â€œinter-peakâ€ portions).
+    (e.g., "inter-peak" portions).
+
     Parameters
     ----------
     trace : array_like, shape (N,)
@@ -157,9 +160,10 @@ def Interp_grid(trace,Interpeak_mask,tvec,grid_spacing=5,correct_for_mins_duplic
     correct_for_mins_duplication : bool, optional
         If True, enable correction for duplicated minima in the interpolation grid.
         Default is False.
-    minima_index : array_like of int or None, optional
+    minima_indices : array_like of int or None, optional
         Indices of minima to use for the duplication-correction logic. If None,
         they are computed internally (less efficient during optimization). Default is None.
+
     Returns
     -------
     tgrid : ndarray, shape (M,)
@@ -167,6 +171,7 @@ def Interp_grid(trace,Interpeak_mask,tvec,grid_spacing=5,correct_for_mins_duplic
     points_to_interpolate : ndarray, shape (M,)
         Window-averaged signal values around each grid node, computed using only
         samples where `Interpeak_mask` is True.
+
     Notes
     -----
     - The window associated with node i is [grid[i-1], grid[i+1]]. At the edges,
@@ -174,6 +179,7 @@ def Interp_grid(trace,Interpeak_mask,tvec,grid_spacing=5,correct_for_mins_duplic
     - If a window contains no True samples in the mask, that node is discarded
     (NaN is produced and removed before returning).
     - Uniform sampling is assumed: `np.diff(tvec)` must be constant.
+
     Examples
     --------
     >>> import numpy as np
@@ -251,6 +257,7 @@ def Interp_grid(trace,Interpeak_mask,tvec,grid_spacing=5,correct_for_mins_duplic
 def absolute_grid_sum(trace,tvec,grid_spacing=0.5,return_grid=False):   #It's inspired to INterp_grid
     """
     Computes the absolute sum of windowed signal sums over a time grid.
+
     Parameters
     ----------
     trace : array_like
@@ -261,6 +268,7 @@ def absolute_grid_sum(trace,tvec,grid_spacing=0.5,return_grid=False):   #It's in
         Grid spacing in seconds. Default = 0.5.
     return_grid : bool, optional
         If True, also returns the grid center times and per-cell contributions.
+
     Returns
     -------
     absolute_grid_difference : float

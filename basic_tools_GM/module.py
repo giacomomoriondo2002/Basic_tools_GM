@@ -1,4 +1,4 @@
-﻿"""Compatibility imports for the original single-module API."""
+"""Compatibility imports for the original single-module API."""
 from .stochastic import *
 from .io import *
 from .utils import *
