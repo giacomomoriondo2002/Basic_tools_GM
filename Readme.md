@@ -19,6 +19,12 @@ Da bash, puoi installare il modulo direttamente dalla repository GitHub con:
 pip install git+https://github.com/giacomomoriondo2002/Basic_tools_GM.git
 ```
 
+e aggiornarlo, in caso di nuovi commit, con:
+
+```bash
+pip install --upgrade git+https://github.com/giacomomoriondo2002/Basic_tools_GM.git
+```
+
 ## Contenuto di `module.py`
 
 ### `autocorr_matrix_1D_system(X, N_iter_axis=0, unbiased=True)`
