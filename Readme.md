@@ -1,6 +1,6 @@
 # Basic tools GM
 
-Repository contenente un piccolo pacchetto Python con funzioni di utilita per analisi numerica, processi stocastici, segnali 1D, filtraggio e gestione di dati tabulari.
+Repository contenente un piccolo pacchetto Python con funzioni di utilita per analisi numerica, norme funzionali Lp e di Sobolev, processi stocastici, segnali 1D, filtraggio e gestione di dati tabulari.
 
 ## Dipendenze
 
@@ -40,6 +40,7 @@ basic_tools_GM/
 ├── signals.py
 ├── filtering.py
 ├── ode.py
+├── norms.py
 └── module.py
 ```
 
@@ -50,6 +51,7 @@ Esempi:
 ```python
 from basic_tools_GM.filtering import optimize_filter
 from basic_tools_GM.peaks import rel_peaks_finder
+from basic_tools_GM.norms import gen_Lp_norm, gen_Hn_norm
 ```
 
 oppure, usando l'API aggregata:
@@ -60,6 +62,45 @@ from basic_tools_GM.module import optimize_filter
 ```
 
 ## Contenuto dei sottomoduli
+
+### Norme funzionali (`norms.py`)
+
+#### `gen_Lp_norm(f, interval, p=2, n_gauss=12, cuts=())`
+
+Calcola numericamente la norma Lp di una funzione su un intervallo 1D tramite quadratura di Gauss-Legendre.
+
+- `f` deve accettare un array NumPy di punti e restituire i valori della funzione.
+- `interval` contiene almeno due nodi strettamente crescenti che definiscono la partizione del dominio.
+- `p` e un esponente finito maggiore o uguale a 1; il valore predefinito e 2.
+- `n_gauss` indica il numero di punti di quadratura per sottointervallo.
+- `cuts` permette di aggiungere punti di suddivisione, utili per funzioni definite a tratti.
+
+Restituisce un'approssimazione di `(integrale di |f(x)|**p)**(1/p)`.
+
+#### `gen_Hn_norm(functions, interval, n_gauss=12, cuts=())`
+
+Calcola numericamente la norma di Sobolev H^n usando la funzione e le sue derivate fornite esplicitamente.
+
+- `functions` e una sequenza non vuota di callable nell'ordine `[f, df, d2f, ..., dnf]`; l'ordine e `n = len(functions) - 1`.
+- `interval`, `n_gauss` e `cuts` hanno lo stesso significato di `gen_Lp_norm`.
+- Restituisce la radice quadrata della somma dei quadrati delle norme L2 delle funzioni fornite.
+
+Per `n >= 2`, funzioni polinomiali a tratti con discontinuita nelle derivate possono produrre una norma di Sobolev calcolata per tratti (broken), anziche la norma H^n globale.
+
+Esempio:
+
+```python
+import numpy as np
+from basic_tools_GM.norms import gen_Lp_norm, gen_Hn_norm
+
+f = lambda x: x
+df = lambda x: np.ones_like(x)
+
+norma_L2 = gen_Lp_norm(f, [0, 1])  # sqrt(1/3)
+norma_H1 = gen_Hn_norm([f, df], [0, 1])  # sqrt(4/3)
+```
+
+Entrambe le funzioni sono disponibili anche tramite `basic_tools_GM` e `basic_tools_GM.module`.
 
 ### Processi stocastici
 

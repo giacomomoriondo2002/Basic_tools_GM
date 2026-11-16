@@ -8,4 +8,5 @@ from .peaks import *
 from .signals import *
 from .filtering import *
 from .ode import *
+from .norms import *
 
